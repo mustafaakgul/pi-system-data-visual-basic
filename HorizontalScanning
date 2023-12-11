@@ -1,0 +1,76 @@
+'Copyright © 1995,1996 OSI Software, Inc.  ALL RIGHTS RESERVED
+
+'This is the VBA code associated with the sheet "PutVal".
+'It demonstrates how to use PI-DataLink's PIPutVal() macro to
+'send data from Excel to PI.
+
+Option Explicit
+
+Public Declare PtrSafe Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)
+
+'This subroutine is called by the <Send above values> button on the
+'left hand side of the "PutVal" worksheet
+Sub put_data1()
+   Dim i As Integer
+   Dim numoftags As Integer
+   
+   'The following four variables are arguments to PIPutVal()
+   Dim sTagname As String  'Tagname
+   Dim stime As String     'Timestamp
+   Dim sServer As String   'PI server name
+   Dim valueCell As Range  'Cell reference containing value to be written
+   Dim resultCell As Range 'Cell reference to hold result
+   Dim apierr As Long
+   Dim rowstr As String
+   Dim buf As String
+   
+   Dim macroResult As Variant
+   Dim timeCell As Range 'Cell reference to hold time of putval
+   
+   i = 0
+   j = 0
+   numoftags = 7  'we have three tags, from cell B4 to B6
+   numofSutun = 2
+   'server is in E8
+   sServer = Worksheets("PutVal").Cells(8, 5).Text
+   While i < numoftags
+   
+    While j < numofSutun
+    
+         'resultCell is in column 5 (E)
+         Set resultCell = Worksheets("PutVal").Cells(i + 8, j + 31)
+         'valueCell is in column 4 (D)
+         Set valueCell = Worksheets("PutVal").Cells(i + 8, j + 12)
+         'tagname is in column 3 (C)
+         sTagname = Worksheets("PutVal").Cells(7, j + 12).Text
+         'timestamp is in column 2 (B)
+         stime = Worksheets("PutVal").Cells(i + 8, 11).Text
+        
+         'Call the PIPutVal() macro function
+         'Note that we pass just a , for the PIServer argument; i.e., we
+         'are using the default PIServer
+         macroResult = Application.Run("PIPutVal", sTagname, valueCell, stime, sServer, resultCell)
+         'move down to the row number
+         
+         j = j + 1
+         Sleep (10)
+         
+    Wend
+      
+      i = i + 1
+      j = 0
+      Sleep (10)
+      
+   Wend
+   
+   Sleep (1000)
+   i = 0
+   While i < numoftags
+      rowstr = Format(i + 8)
+      buf = "G" & rowstr
+      Range(buf).Select
+      buf = "=PIArcVal($C$" & rowstr & ",$B$" & rowstr & ",0,""" & sServer & """,""exact time"")"
+      Selection.FormulaArray = buf
+      i = i + 1
+   Wend
+End Sub

@@ -1,0 +1,101 @@
+
+Option Explicit
+
+Public Declare PtrSafe Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)
+
+Sub put_datav2()
+
+   Dim i As Integer
+   Dim j As Integer
+   
+   Dim numberOfRow As Integer
+   Dim numberOfColumn As Integer
+   
+   Dim sTagname As String
+   Dim stime As String
+   Dim sDate As String
+   Dim sAll As String
+   Dim sServer As String
+   Dim valueCell As Range
+   Dim resultCell As Range
+   Dim apierr As Long
+   Dim rowstr As String
+   Dim buf As String
+   
+   Dim RowHour As Integer
+   Dim LastColumn As Integer
+   Dim LastRow As Integer
+   Dim counter As Integer
+   Dim columnHour As Integer
+   
+   Dim macroResult As Variant
+   Dim timeCell As Range
+   
+   For counter = 1 To 50
+    If Cells(1, counter).Value = "HOUR" Then
+        columnHour = counter
+    End If
+   Next counter
+   
+   LastColumn = Cells(1, Columns.Count).End(xlToLeft).Column + 1
+
+   For counter = 1 To 35
+    If Cells(counter, columnHour).Text = "00:00:00" Then
+        RowHour = counter
+        LastRow = counter + 23
+    End If
+   Next counter
+   
+   'MsgBox columnHour
+   'MsgBox LastColumn
+   'MsgBox RowHour
+   'MsgBox LastRow
+   
+   i = 0
+   j = 0
+   numberOfRow = LastRow - RowHour + 1
+   numberOfColumn = LastColumn - columnHour - 1
+   
+   sServer = Worksheets("Firin Girisi (Saatlik)").Cells(5, 2).Text
+ 
+ 
+    While j < numberOfColumn
+    
+        If Cells(1, columnHour + 1 + j).Value = "EMPTY" Then
+        
+        Else
+        
+            While i < numberOfRow
+            
+                 Set resultCell = Worksheets("Firin Girisi (Saatlik)").Cells(i + RowHour, j + 80)
+                 Set valueCell = Worksheets("Firin Girisi (Saatlik)").Cells(i + RowHour, j + columnHour + 1)
+                 sTagname = Worksheets("Firin Girisi (Saatlik)").Cells(1, columnHour + 1 + j).Text
+                 stime = Worksheets("Firin Girisi (Saatlik)").Cells(i + RowHour, columnHour + j).Text
+                 'sDate = Worksheets("Firin Girisi (Saatlik)").Cells(i + RowHour, columnHour - 1).Text
+                 sDate = Worksheets("Firin Girisi (Saatlik)").Cells(4, 3).Text
+                
+                 sAll = sDate & " " & stime
+                 'MsgBox sAll
+                
+                 macroResult = Application.Run("PIPutVal", sTagname, valueCell, sAll, sServer, resultCell)
+                 
+                 i = i + 1
+                 Sleep (2)
+                 
+            Wend
+        
+        End If
+        
+          Sleep (2)
+          j = j + 1
+          i = 0
+          Sleep (2)
+          
+    Wend
+   
+  
+   
+   
+   
+End Sub
+   

@@ -1,0 +1,255 @@
+            
+    Private Sub Worksheet_Change(ByVal target As Range)
+    
+    Dim RowHourFirst As Integer
+    Dim LastColumnFirst As Integer
+    Dim LastRowFirst As Integer
+    Dim counterFirst As Integer
+    Dim columnHourFirst As Integer
+    
+    Dim KeyCells As Range
+    'Set KeyCells = Range("E10:K33")
+    Dim transferRow As Integer
+    Dim transferColumn As Integer
+    
+    
+    '''''''''''''''''''Finding Frame
+            For counterFirst = 1 To 50
+             If Cells(1, counterFirst).Value = "HOUR" Then
+                 columnHourFirst = counterFirst
+             End If
+            Next counterFirst
+            
+            LastColumnFirst = Cells(1, Columns.Count).End(xlToLeft).column + 1
+         
+            For counterFirst = 1 To 35
+             If Cells(counterFirst, columnHourFirst).Text = "00:00:00" Then
+                 RowHourFirst = counterFirst
+                 LastRowFirst = counterFirst + 23
+             End If
+            Next counterFirst
+    '''''''''''''''''''Finding Frame End
+    
+    MsgBox RowHourFirst
+    MsgBox columnHourFirst
+    MsgBox LastRowFirst
+    MsgBox LastColumnFirst
+    
+    Set KeyCells = Range(Cells(RowHourFirst, columnHourFirst + 1), Cells(LastRowFirst, LastColumnFirst - 1))
+    
+    If Not Application.Intersect(KeyCells, target) Is Nothing Then
+    
+        transferRow = target.row
+        transferColumn = target.column
+        Call Module1.Import2PIAuto(transferRow, transferColumn)
+        'MsgBox transferRow
+        'MsgBox transferColumn
+        
+    End If
+    
+    End Sub
+
+
+
+Sub Import2PIAuto(ByVal takenRow As Integer, ByVal takenColumn As Integer)
+    
+        'MsgBox takenRow
+        'MsgBox takenColumn
+    
+        Dim i As Integer
+        Dim j As Integer
+        
+        Dim numberOfRow As Integer
+        Dim numberOfColumn As Integer
+        
+        Dim sTagname As String
+        Dim stime As String
+        Dim sDate As String
+        Dim sAll As String
+        Dim sServer As String
+        Dim valueCell As Range
+        Dim resultCell As Range
+        Dim apierr As Long
+        Dim rowstr As String
+        Dim buf As String
+        
+        Dim RowHour As Integer
+        Dim LastColumn As Integer
+        Dim LastRow As Integer
+        Dim counter As Integer
+        Dim columnHour As Integer
+        
+        Dim macroResult As Variant
+        Dim timeCell As Range
+        Dim sheetVar As Integer
+        
+        sServer = Worksheets("Firin Girisi (Saatlik)").Cells(5, 2).Text
+        
+        '''''''''''''''''''Cycle
+         
+            '''''''''''''''''''Finding Frame
+            For counter = 1 To 50
+             If Cells(1, counter).Value = "HOUR" Then
+                 columnHour = counter
+             End If
+            Next counter
+            
+            LastColumn = Cells(1, Columns.Count).End(xlToLeft).column + 1
+         
+            For counter = 1 To 35
+             If Cells(counter, columnHour).Text = "00:00:00" Then
+                 RowHour = counter
+                 LastRow = counter + 23
+             End If
+            Next counter
+            '''''''''''''''''''Finding Frame End
+            
+            '''''''''''''''''''Result of Frame
+            'MsgBox columnHour
+            'MsgBox LastColumn
+            'MsgBox RowHour
+            'MsgBox LastRow
+            '''''''''''''''''''Result of Frame End
+            
+            '''''''''''''''''''Calculation of Frame
+            i = 0
+            j = 0
+            numberOfRow = LastRow - RowHour + 1
+            numberOfColumn = LastColumn - columnHour - 1
+            '''''''''''''''''''Calculation of Frame End
+            
+            ''sinirlarin icinde ise org 17,5 geldi
+                             
+                     
+                          Set resultCell = ActiveSheet.Cells(takenRow, takenColumn + 80)
+                          Set valueCell = ActiveSheet.Cells(takenRow, takenColumn)
+                          sTagname = ActiveSheet.Cells(1, takenColumn).Text
+                          stime = ActiveSheet.Cells(takenRow, 4).Text
+                          sDate = ActiveSheet.Cells(4, 3).Text
+                          sAll = sDate & " " & stime
+                          macroResult = Application.Run("PIPutVal", sTagname, valueCell, sAll, sServer, resultCell)
+                          
+                          'MsgBox resultCell
+                          'MsgBox valueCell
+                          'MsgBox sTagname
+                          'MsgBox stime
+                          'MsgBox sDate
+                          'MsgBox "abc"
+    
+                          Sleep (2)
+               
+            
+            
+        '''''''''''''''''''Cycle End
+
+    
+        
+    End Sub
+
+
+
+Option Explicit
+
+Public Declare PtrSafe Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As Long)
+
+Sub Import2PI()
+
+   Dim i As Integer
+   Dim j As Integer
+   
+   Dim numberOfRow As Integer
+   Dim numberOfColumn As Integer
+   
+   Dim sTagname As String
+   Dim stime As String
+   Dim sDate As String
+   Dim sAll As String
+   Dim sServer As String
+   Dim valueCell As Range
+   Dim resultCell As Range
+   Dim apierr As Long
+   Dim rowstr As String
+   Dim buf As String
+   
+   Dim RowHour As Integer
+   Dim LastColumn As Integer
+   Dim LastRow As Integer
+   Dim counter As Integer
+   Dim columnHour As Integer
+   
+   Dim macroResult As Variant
+   Dim timeCell As Range
+   Dim sheetVar As Integer
+   
+   sServer = Worksheets("Firin Girisi (Saatlik)").Cells(5, 2).Text
+   
+   '''''''''''''''''''Cycle
+   For sheetVar = 1 To Worksheets.Count
+    
+       '''''''''''''''''''Finding Frame
+       For counter = 1 To 50
+        If Cells(1, counter).Value = "HOUR" Then
+            columnHour = counter
+        End If
+       Next counter
+       
+       LastColumn = Cells(1, Columns.Count).End(xlToLeft).column + 1
+    
+       For counter = 1 To 35
+        If Cells(counter, columnHour).Text = "00:00:00" Then
+            RowHour = counter
+            LastRow = counter + 23
+        End If
+       Next counter
+       '''''''''''''''''''Finding Frame End
+       
+       '''''''''''''''''''Result of Frame
+       'MsgBox columnHour
+       'MsgBox LastColumn
+       'MsgBox RowHour
+       'MsgBox LastRow
+       '''''''''''''''''''Result of Frame End
+       
+       '''''''''''''''''''Calculation of Frame
+       i = 0
+       j = 0
+       numberOfRow = LastRow - RowHour + 1
+       numberOfColumn = LastColumn - columnHour - 1
+       '''''''''''''''''''Calculation of Frame End
+      
+        While j < numberOfColumn
+        
+            If Cells(1, columnHour + 1 + j).Value = "EMPTY" Then
+            
+            Else
+            
+                While i < numberOfRow
+                
+                     Set resultCell = Worksheets(Sheets(sheetVar).Name).Cells(i + RowHour, j + 80)
+                     Set valueCell = Worksheets(Sheets(sheetVar).Name).Cells(i + RowHour, j + columnHour + 1)
+                     sTagname = Worksheets(Sheets(sheetVar).Name).Cells(1, columnHour + 1 + j).Text
+                     stime = Worksheets(Sheets(sheetVar).Name).Cells(i + RowHour, columnHour + j).Text
+                     sDate = Worksheets(Sheets(sheetVar).Name).Cells(4, 3).Text
+                     sAll = sDate & " " & stime
+                    
+                     macroResult = Application.Run("PIPutVal", sTagname, valueCell, sAll, sServer, resultCell)
+                     
+                     i = i + 1
+                     Sleep (2)
+                     
+                Wend
+            
+            End If
+            
+              Sleep (2)
+              j = j + 1
+              i = 0
+              Sleep (2)
+              
+        Wend
+       
+   Next
+   '''''''''''''''''''Cycle End
+  
+End Sub
+

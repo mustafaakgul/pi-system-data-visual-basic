@@ -1,0 +1,570 @@
+Sub SayHello()
+
+MsgBox "hello"
+
+End Sub
+Sub lower()
+
+Range("e3").Value = Range("e3").Value - 1
+
+End Sub
+
+Sub higher()
+
+Range("e3").Value = Range("e3").Value + 1
+
+End Sub
+
+
+Sub findx()
+
+If Range("e3").Value = "4" Then
+    Range("e3").Value = Range("e3").Value + 15
+End If
+
+End Sub
+
+
+Sub findcellitem()
+
+If cell.Item(3, 5) = 4 Then
+    cell.Item(3, 5) = 5
+End If
+
+End Sub
+
+
+Sub findcellabc()
+
+If Cells(3, 5).Value = 4 Then
+    Cells(3, 5).Value = 14 + 5
+End If
+
+End Sub
+
+
+Sub SetCellValues()
+    Dim names As Range
+    Set names = Range("A2:A5")
+    
+    Dim cell As Range
+    
+    For Each cell In names
+        cell.Value = cell.Value & " " & cell.Offset(0, 1).Value
+    Next cell
+End Sub
+
+
+'Notes
+
+'Range("B3").Value = 2
+'Range("A1:A4").Value = 5
+'Range("A1:A2,B3:C4").Value = 10
+'Worksheets("Sheet1").Range("A1").Value = 3.14159
+'Sheets(“sheet1”).range(“a3”).value = 1
+
+'For Each c in Worksheets("Sheet1").Range("A1:D10")
+' If c.Value < 0.001 Then
+' c.Value = 0
+' End If
+'Next c
+
+
+'Dim ws As Worksheet
+'Set ws = Sheets(“sheet1”)
+'ws.Range(“a4”).Value = 1
+
+
+'Workbooks(“Book1.xlsm”).Sheets(“sheet1”).Range(“a3”).Value = 1
+'ThisWorkbook.Sheets(“sheet1”).Range(“a3”).Value = 1
+
+
+'Range for selecting cell in Excel   Range declared
+'For single Row  Range("1:1")
+'For single Column   Range("A: A")
+'For Contiguous Cells    Range("A1:C5")
+'For Non-Contiguous Cells    Range("A1:C5, F1:F5")
+'For Intersection of two ranges  Range("A1:C5 F1:F5")
+
+'(For intersection cell, remember there is no comma operator)
+'To merge Cell   Range("A1:C5")
+
+'( To merge cell use "merge" command)
+
+
+'Cells.item(1,1) OR
+'Cells.item(1,"A")
+
+
+
+
+
+
+Sub moveUp()
+
+Selection.Offset(-1, 0).Select
+
+End Sub
+
+
+Sub moveDown()
+
+Selection.Offset(1, 0).Select
+
+End Sub
+
+Sub moveRight()
+
+Selection.Offset(0, 1).Select
+
+End Sub
+
+Sub moveLeft()
+
+Selection.Offset(0, -1).Select
+
+End Sub
+
+
+
+Sub ListwithLoop()
+
+Dim counter As Integer
+
+For counter = 0 To 10
+
+Selection.Value = counter
+Selection.Offset(1, 0).Select
+
+Next counter
+
+End Sub
+
+
+
+Sub finddatexyz()
+
+Dim text
+
+If Cells(1, 1).text = "11:11:11 AM" Then
+    MsgBox "asd1"
+End If
+
+
+If Cells(2, 1).Value = "7/12/2011" Then
+    MsgBox "asd2"
+End If
+
+'textx = Cells(3, 1).text
+
+MsgBox Cells(1, 1).text
+
+End Sub
+
+
+
+Dim MyTime
+MyTime = TimeValue("12:00:00 AM")
+
+Dim MyTimeCurrent
+MyTimeCurrent = Time
+
+exactTime = FormatDateTime("12:00:00 AM", vbLongTime)
+'exactTime = "00:00:00"
+
+
+
+Sub ab()
+Dim foundRng As Range
+
+Set foundRng = Range("D3:D19").Find("Andrea")
+
+If foundRng Is Nothing Then
+    MsgBox "Value not found"
+Else
+    MsgBox foundRng.Address
+End If
+
+End Sub
+
+Sub GetColumnsdawda()
+
+Dim lnRow As Long, lnCol As Long
+
+lnRow = 3 'For testing
+
+lnCol = Sheet1.Cells(lnRow, 1).EntireRow.Find(What:="sds", LookIn:=xlValues, LookAt:=xlPart, SearchOrder:=xlByColumns, SearchDirection:=xlNext, MatchCase:=False).Column
+End Sub
+
+Sub rangeasd()
+
+    Dim xxrow As Long
+    
+    xxrow = Cells(1, Columns.Count).End(x1ToLeft).Column
+    
+    MsgBox xxrow
+
+End Sub
+
+Sub rangefhdfhd()
+
+    row_number = 1
+    Do
+    DoEvents
+    row_number = row_number + 1
+    
+        item_number = Sheet1.Range("A" & row_number)
+    
+            If InStr(item_number, "5") > 0 Then
+                MsgBox row_number
+            End If
+            
+        
+    Loop Until row_number = 16
+        
+
+End Sub
+
+Sub Range_End_Method()
+'Finds the last non-blank cell in a single row or column
+
+Dim lRow As Long
+Dim lCol As Long
+    
+    'Find the last non-blank cell in column A(1)
+    lRow = Cells(Rows.Count, 1).End(xlUp).Row
+    
+    'Find the last non-blank cell in row 1
+    lCol = Cells(1, Columns.Count).End(xlToLeft).Column
+    
+    MsgBox "Last Row: " & lRow & vbNewLine & _
+            "Last Column: " & lCol
+  
+End Sub
+
+Sub Range_Find_Method()
+'Finds the last non-blank cell on a sheet/range.
+
+Dim lRow As Long
+Dim lCol As Long
+    
+    lRow = Cells.Find(What:="5", _
+                    After:=Range("A1"), _
+                    LookAt:=xlPart, _
+                    LookIn:=xlFormulas, _
+                    SearchOrder:=xlByRows, _
+                    SearchDirection:=xlPrevious, _
+                    MatchCase:=False).Row
+    
+    MsgBox "Last Row: " & lRow
+
+End Sub
+
+Sub GetColumnsasdsa()
+
+Dim lnRow As Long
+Dim lnCol As Long
+
+lnRow = 1 'For testing
+
+lnCol = Sheet1.Cells(lnRow, 1).EntireRow.Find(What:="5", LookIn:=xlValues, LookAt:=xlWhole, SearchOrder:=xlByColumns, SearchDirection:=xlNext, MatchCase:=False).Column
+
+MsgBox lnCol
+
+End Sub
+
+Sub program()
+
+End Sub
+
+' Find the name Jena in the range A1:A5
+Dim rgFound As Range
+Set rgFound = Range("1:1").Find("DATE")
+
+' Print cell address to Immediate Window(Ctrl + G)
+Debug.Print rgFound.Address
+MsgBox rgFound.Address
+
+'Function findFirstColumn(ByVal j As Integer) As Double
+ '   Return 3.87 * j
+'End Function
+
+'End Sub
+
+
+'Public Function FVax(PV As Variant, i As Variant, n As Variant) As Variant
+
+
+
+'Public Function FVax(PV As Variant, i As Variant, n As Variant) As Variant
+'Formula to calculate Future Value(FV)
+'PV denotes Present Value
+'FV = PV * (1 + i / 100) ^ n
+'End Function
+
+
+Private Sub compute_Click()
+'This procedure will calculate Future Value
+Dim FutureVal As Variant
+Dim PresentVal As Variant
+Dim interest As Variant
+Dim period As Variant
+PresentVal = PV.text
+interest = Rate.text
+period = years.text
+FutureVal = FV(PresentVal, interest, period)
+MsgBox ("The Future Value is " & FutureVal)
+End Sub
+
+Sub programadsadasd()
+
+' Find the name Jena in the range A1:A5
+Dim rgFound As Range
+Set rgFound = Range("1:1").Find("DATE")
+
+' Print cell address to Immediate Window(Ctrl + G)
+Debug.Print rgFound.Address
+MsgBox rgFound.Address
+
+End Sub
+
+
+
+Sub Test()
+
+  Dim RngToday As Range
+
+  Set RngToday = FindCurrentCell
+
+  If RngToday Is Nothing Then
+    MsgBox "Today's date not found"
+  Else
+    MsgBox "Today’s date in " & RngToday.Address
+  End If
+
+End Sub
+Public Function FindCurrentCell() As Range
+
+  Dim cell As Range
+
+  With Worksheets("Futures")
+
+    Set cell = .Cells.Find(What:=Date, After:=.Range("A1"), LookIn:=xlFormulas, _
+                           SearchOrder:=xlByRows, SearchDirection:=xlNext)
+    If cell Is Nothing Then
+      ' Today's date not found
+      ' Add any appropriate code
+    Else
+      ' Today's date found
+      ' Add any appropriate code
+    End If
+
+  End With
+
+  Set FindCurrentCell = cell
+
+End Function
+
+
+
+
+Sub Tabellennamen_auslesen()
+For i = 1 To Worksheets.Count
+Sheets("Sayfa1").Cells(i, 1).Value = Sheets(i).Name
+Next
+End Sub
+
+
+
+
+
+Sub Worksheet_Change(ByVal target As Range)
+    Dim KeyCells As Range
+
+' The variable KeyCells contains the cells that will
+    ' cause an alert when they are changed.
+    Set KeyCells = Range("A1:C10")
+
+If Not Application.Intersect(KeyCells, Range(target.Address)) _
+           Is Nothing Then
+
+' Display a message when one of the designated cells has been
+        ' changed.
+        ' Place your code here.
+        MsgBox "Cell " & target.Address & " has changed."
+
+End If
+End Sub
+
+
+
+Private Sub Worksheet_Change(ByVal target As Range)
+
+If target.Address = "$A$1" Then
+
+Application.EnableEvents = False
+
+'ENTER YOUR MACRO HERE THAT WILL RUN WHEN CELL CHANGES
+
+Application.EnableEvents = True
+
+End If
+
+End Sub
+
+
+
+Private Sub Worksheet_Change(ByVal target As Range)
+
+MsgBox target.Address
+
+
+End Sub
+
+
+    Private Sub Worksheet_Change(ByVal target As Range)
+    
+    Dim KeyCells As Range
+    Set KeyCells = Range("A1:C10")
+    
+    If Not Application.Intersect(KeyCells, Range(target.Address)) Is Nothing Then
+    Call Sample
+    MsgBox target.Address
+    End If
+    End Sub
+    
+    
+    
+    Sub Sample()
+    MsgBox "yes"
+    End Sub
+
+
+Option Explicit
+
+Public Sub Worksheet_Change(ByVal target As Range)
+    Dim intersection As Range
+    Set intersection = Intersect(target, Range("A1:B3"))
+
+    If Not intersection Is Nothing Then
+        
+            
+        MsgBox target.Address(0, 0)
+        MsgBox intersection.Address(0, 0)
+    End If
+End Sub
+
+
+
+
+
+Sub findHourCell()
+
+Dim RowHour As Integer
+Dim LastColumn As Integer
+Dim LastRow As Integer
+Dim counter As Integer
+Dim columnHour As Integer
+
+For counter = 1 To 50
+
+If Cells(1, counter).Value = "HOUR" Then
+    columnHour = counter
+End If
+
+Next counter
+
+
+For counter = 1 To 500
+
+If Cells(1, counter).Value = "" Then
+    LastColumn = counter
+End If
+
+Next counter
+
+
+For counter = 1 To 35
+
+If Cells(counter, columnHour).Text = "00:00:00" Then
+    RowHour = counter
+    LastRow = counter + 23
+End If
+
+Next counter
+
+
+    MsgBox RowHour
+    MsgBox columnHour
+    MsgBox LastRow
+
+
+End Sub
+
+
+
+
+
+  Private Sub Worksheet_Change(ByVal target As Range)
+    
+    Dim KeyCells As Range
+    Set KeyCells = Range(Cells(1, 1), Cells(1, 10))
+    'Set KeyCells = Range("A1:A10")
+    Dim exact_Cell As Range
+    Dim rowabc As Integer
+    
+    
+    If Not Application.Intersect(KeyCells, target) Is Nothing Then
+        
+        rowabc = target.Row
+        Call Import2PIAuto(rowabc)
+        
+        'MsgBox target.Column
+        
+    End If
+    
+    End Sub
+     
+    Sub Import2PIAuto(ByVal rowxyz As Integer)
+    
+        'MsgBox rowxyz
+        MsgBox "yes"
+        
+    End Sub
+
+
+
+Sub abc123()
+    Range(Cells(6, 1), Cells(6, 3)).Value = 5
+End Sub
+
+
+Sub RangeTest()
+  Dim testRange As Range
+  Dim targetWorksheet As Worksheet
+
+  Set targetWorksheet = Worksheets("MySheetName")
+
+  With targetWorksheet
+    '.Cells(5, 10).Select 'selects cell J5 on targetWorksheet
+    Set testRange = .Range(.Cells(1, 1), .Cells(1, 10))
+  End With
+
+  testRange.Select 'selects range of cells E5:J10 on targetWorksheet
+  MsgBox testRange
+  
+
+End Sub
+
+Sub GetColumn51()
+
+Dim ws As Worksheet
+'ActiveSheet.Range("A5").Value = 1
+ActiveSheet.Cells.Item(1, 1).Value = 1
+Range(Cells(6, 1), Cells(10, 3)).Value = 5
+
+End Sub
+
+
+
+

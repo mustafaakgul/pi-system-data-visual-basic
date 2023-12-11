@@ -1,0 +1,44 @@
+
+Sub findHourCell()
+
+Dim RowHour As Integer
+Dim LastColumn As Integer
+Dim LastRow As Integer
+Dim counter As Integer
+Dim columnHour As Integer
+Dim exactTime As String
+
+For counter = 1 To 50
+
+If Cells(1, counter).Value = "HOUR" Then
+    columnHour = counter
+End If
+
+Next counter
+
+
+For counter = 1 To 500
+
+If Cells(1, counter).Value = "" Then
+    LastColumn = counter
+End If
+
+Next counter
+
+
+For counter = 1 To 35
+
+If Cells(counter, columnHour).Text = "12:00:00 AM" Then
+    RowHour = counter
+    LastRow = counter + 23
+End If
+
+Next counter
+
+
+    MsgBox RowHour
+    MsgBox columnHour
+    MsgBox LastRow
+
+
+End Sub
